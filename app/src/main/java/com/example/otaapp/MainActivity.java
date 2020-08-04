@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
     static final int updateCheckInterval = 10000; //in ms
     static final String otapkgFolder    = "/mnt/sdcard/otapkg/";
     static final String versionFile     = "version.txt";
-    static final String packages[]      = { "HMI-Core", "HMI-App"};
+    static final String packages[]      = { "App-A", "App-B, "App -c"};
     Boolean updateAvailable             = false;
-    String currentVersion               = "4.0.0.0";
+    String currentVersion               = "1.0.0.0";
     String newVersion                   = "NA";
 
     //UI Elements
@@ -118,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
         //startActivity(intent);
 
         OTAInstaller otaInstaller = new OTAInstaller(newVersion);
+        // try to install via package manager APIs
         otaInstaller.installViaPackageManager(getApplicationContext(), directory, apkName);
+        //OR use OS commands, both cases require different permissions.
         //otaInstaller.installViaOSCmd(directory, apkName);
     }
 
