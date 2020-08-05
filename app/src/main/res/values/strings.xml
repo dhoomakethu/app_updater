@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OTA App</string>
+    <string name="activity_install_apk_session_api">Install Apk using Session API</string>
 </resources>

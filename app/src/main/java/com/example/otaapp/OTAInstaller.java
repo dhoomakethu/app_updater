@@ -1,10 +1,12 @@
 package com.example.otaapp;
-
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,12 +16,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 public class OTAInstaller {
+    private static final String PACKAGE_INSTALLED_ACTION =
+            "com.example.otaapp.SESSION_API_PACKAGE_INSTALLED";
     String version;
+
     public OTAInstaller(String version) {
         this.version = version;
         Log.i("OTA Installer", "Installer initialized, version to be installed: " + version);
     }
-    public void installViaPackageManager (Context context, String directory, String apkName) {
+
+    public void installViaPackageManager(Context context, String directory, String apkName) {
         PackageInstaller pkgInstaller = context.getPackageManager().getPackageInstaller();
         PackageInstaller.SessionParams sessionParam = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
 
@@ -37,7 +43,7 @@ public class OTAInstaller {
             File file = new File(directory + apkName);
             FileInputStream fileInputStream = new FileInputStream(file);
             //for the lack of better code examples :)
-            byte apkRawContent [] = new byte[(int) file.length()];
+            byte apkRawContent[] = new byte[(int) file.length()];
             int numReadBytes = fileInputStream.read(apkRawContent);
 
             Log.i("OTAInstaller", "File Length:" + file.length() + " Read: " + numReadBytes);
@@ -67,10 +73,10 @@ public class OTAInstaller {
         }
     }
 
-    public void installViaOSCmd(String directory, String apkName){
+    public void installViaOSCmd(String directory, String apkName) {
         try {
             final String command = "pm install -r " + directory + apkName;
-            Process apkInstallProc = Runtime.getRuntime().exec(new String[] {
+            Process apkInstallProc = Runtime.getRuntime().exec(new String[]{
                     "su",
                     "-c",
                     command

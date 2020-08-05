@@ -2,10 +2,12 @@ package com.example.otaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static final int updateCheckInterval = 10000; //in ms
     static final String otapkgFolder    = "/mnt/sdcard/otapkg/";
     static final String versionFile     = "version.txt";
-    static final String packages[]      = { "App-A", "App-B, "App -c"};
+    static final String packages[]      = { "App-A", "App-B", "App -c"};
     Boolean updateAvailable             = false;
     String currentVersion               = "1.0.0.0";
     String newVersion                   = "NA";
@@ -54,8 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
 
             try {
+                Context context = getApplicationContext();
+
                 File fileInput = new File(otapkgFolder + versionFile);
                 if (fileInput != null) {
+//                    Uri fileUri = Uri.fromFile(fileInput);
+//                    final ParcelFileDescriptor versionFileDescriptor = context.getContentResolver().openFileDescriptor(fileUri, "r", null);
+//                    final FileInputStream inputStream = new FileInputStream(versionFileDescriptor.getFileDescriptor());
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(fileInput));
                     String line;
                     try {
@@ -138,10 +146,13 @@ public class MainActivity extends AppCompatActivity {
         buttonUpdate.setClickable(false);
         progressBarUpdate.setEnabled(false);
         textViewCurrentVersion.setText(currentVersion);
-        textViewNewVersion.setText(newVersion);
 
-        updateHandlerRunnable.run();
-        Intent receivedIntent = getIntent();
+//        textViewCurrentVersion.setText("1.0.0");
+//        textViewNewVersion.setText("1.2.0");
+//        updateHandlerRunnable.run();
+//        Intent receivedIntent = getIntent();
+        Intent updateIntent = new Intent(this, InstallApkSessionApi.class);
+        startActivity(updateIntent);
     }
 
 
