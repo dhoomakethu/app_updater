@@ -3,6 +3,7 @@
     package="com.example.otaapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
@@ -12,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        android:requestLegacyExternalStorage="true"
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/device_admin" />
@@ -23,19 +25,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name="OTADeviceAdminReceiver"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
+        <activity android:name=".InstallApk"
+            android:label="@string/activity_install_apk_session_api"
+            android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
+            <intent-filter>
+                <action android:exported="true"
+                    android:name="com.example.android.apis.content.SESSION_API_PACKAGE_INSTALLED" />
+            </intent-filter>
+        </activity>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
-                android:name="android.app.device_admin"
-                android:resource="@xml/device_admin" />
-        </receiver>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
     </application>
 
 </manifest>

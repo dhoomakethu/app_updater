@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">OTA App</string>
+    <string name="DEFAULT_CURRENT_VERSION">A.B.C.D</string>
+    <string name="CURRENT_VERSION_LABEL">Current Version</string>
+    <string name="NEW_VERSION_LABEL">New Version</string>
+    <string name="BUTTON_LABEL">Update</string>
+    <string name="UPDATE_DIRECTORY">/mnt/sdcard/otapkg/</string>
+    <string name="activity_install_apk_session_api">Install Apk using Session API</string>
 </resources>
